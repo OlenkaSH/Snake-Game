@@ -28,12 +28,14 @@ let obstacle = {
   y: 320,
 };
 
-// Делаем генератор случайных чисел в заданном диапазоне
+let img = new Image();
+img.src = "https://i.kym-cdn.com/entries/icons/original/000/014/879/SNAKE!.jpg";
+//Create a generator of random numbers
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-// Игровой цикл — основной процесс, внутри которого будет всё происходить
+//create a game process
 function loop() {
   // Дальше будет хитрая функция, которая замедляет скорость игры с 60 кадров в секунду до 15. Для этого она пропускает три кадра из четырёх, то есть срабатывает каждый четвёртый кадр игры. Было 60 кадров в секунду, станет 15.
   requestAnimationFrame(loop);
@@ -75,9 +77,9 @@ function loop() {
   snake.cells.forEach(function (cell, index) {
     // Чтобы создать эффект клеточек, делаем зелёные квадратики меньше на один пиксель, чтобы вокруг них образовалась чёрная граница
     context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
-    // Если змейка добралась до яблока...
+    //collision detection
     if (cell.x === obstacle.x && cell.y === obstacle.y) {
-      // увеличиваем длину змейки
+      //make a snake 1 cell longer after collision
       snake.maxCells++;
       score++;
       console.log(score);
@@ -89,13 +91,17 @@ function loop() {
     context.font = "16px Arial";
     context.fillStyle = "#0095DD";
     context.fillText("Score: " + score, 8, 20);
-    // Проверяем, не столкнулась ли змея сама с собой
-    // Для этого перебираем весь массив и смотрим, есть ли у нас в массиве змейки две клетки с одинаковыми координатами
+    //Detection collision check with itself
+    //Для этого перебираем весь массив и смотрим, есть ли у нас в массиве змейки две клетки с одинаковыми координатами
     for (var i = index + 1; i < snake.cells.length; i++) {
-      // Если такие клетки есть — начинаем игру заново
+      // Если такие клетки есть — risujem kartinku game over
       if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-        alert("GAME IS OVER!!!");
-        document.location.reload();
+        //img.onload = function () {
+        context.drawImage(img, 60, 60);
+        // };
+        console.log("end game");
+        //document.location.reload();
+        clearInterval(interval); // Needed for Chrome to end game
       }
     }
   });
