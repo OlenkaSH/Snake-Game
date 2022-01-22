@@ -96,7 +96,7 @@ function loop() {
     for (var i = index + 1; i < snake.cells.length; i++) {
       // Если такие клетки есть — risujem kartinku game over
       if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-        context.drawImage(img, 30, 30);
+        context.drawImage(img, 0, 0);
         console.log("mygame");
         window.cancelAnimationFrame(myReq);
       }
