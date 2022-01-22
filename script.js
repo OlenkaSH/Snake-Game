@@ -2,7 +2,7 @@
 let canvas = document.getElementById("game");
 
 let context = canvas.getContext("2d");
-
+let myReq;
 let score = 0;
 //size of one cell on game field
 let grid = 16;
@@ -38,7 +38,7 @@ function getRandomInt(min, max) {
 //create a game process
 function loop() {
   // Дальше будет хитрая функция, которая замедляет скорость игры с 60 кадров в секунду до 15. Для этого она пропускает три кадра из четырёх, то есть срабатывает каждый четвёртый кадр игры. Было 60 кадров в секунду, станет 15.
-  requestAnimationFrame(loop);
+  myReq = requestAnimationFrame(loop);
   // Игровой код выполнится только один раз из четырёх, в этом и суть замедления кадров, а пока переменная count меньше четырёх, код выполняться не будет.
   if (++count < 10) {
     return;
@@ -96,12 +96,9 @@ function loop() {
     for (var i = index + 1; i < snake.cells.length; i++) {
       // Если такие клетки есть — risujem kartinku game over
       if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-        //img.onload = function () {
-        context.drawImage(img, 60, 60);
-        // };
-        console.log("end game");
-        //document.location.reload();
-        clearInterval(interval); // Needed for Chrome to end game
+        context.drawImage(img, 30, 30);
+        console.log("mygame");
+        window.cancelAnimationFrame(myReq);
       }
     }
   });
